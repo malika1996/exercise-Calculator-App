@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     }
 
     // MARK: IBActions
-    @IBAction func numberTapped(_ sender: CustomButton) {
+    @IBAction private func numberTapped(_ sender: CustomButton) {
         if calculationsOn == true {
             label.text = String(sender.tag-1)
             currentNumber = Double(label.text!)!
@@ -48,7 +48,7 @@ class ViewController: UIViewController {
              currentNumber = Double(label.text!)!
         }
     }
-    @IBAction func btnOperationTapped(_ sender: CustomButton) {
+    @IBAction private func btnOperationTapped(_ sender: CustomButton) {
         if label.text != "" && sender.tag != Operators.Clear.rawValue && sender.tag != Operators.EqualTo.rawValue && label.text != "÷" && label.text != "*" && label.text != "+" && label.text != "-" {
             self.computePreviousNumAndUpdateOperationOnLabel(tag: sender.tag)
         }
