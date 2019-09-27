@@ -14,9 +14,11 @@ enum Operators: Int {
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var btnAC: UIButton!
-    @IBOutlet weak var label: UILabel!
+    // MARK: Private IBOutlets
+    @IBOutlet weak private var btnAC: UIButton!
+    @IBOutlet weak private var label: UILabel!
     
+    // MARK: Default values
     var currentNumber: Double = 0
     var previousNumber: Double = 0
     var calculationsOn = false
@@ -26,6 +28,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
 
+    // MARK: IBActions
     @IBAction func numberTapped(_ sender: CustomButton) {
         if calculationsOn == true {
             label.text = String(sender.tag-1)
@@ -47,41 +50,11 @@ class ViewController: UIViewController {
     }
     @IBAction func btnOperationTapped(_ sender: CustomButton) {
         if label.text != "" && sender.tag != Operators.Clear.rawValue && sender.tag != Operators.EqualTo.rawValue && label.text != "÷" && label.text != "*" && label.text != "+" && label.text != "-" {
-            previousNumber = Double(label.text!)!
-            if sender.tag == Operators.Divide.rawValue {
-                label.text = "÷"
-            }
-            
-            if sender.tag == Operators.Multiply.rawValue {
-                label.text = "*"
-            }
-            if sender.tag == Operators.Subtract.rawValue {
-                label.text = "-"
-            }
-            
-            if sender.tag == Operators.Add.rawValue {
-                label.text = "+"
-            }
-            operationTag = sender.tag
-            calculationsOn = true
+            self.computePreviousNumAndUpdateOperationOnLabel(tag: sender.tag)
         }
             
         else if sender.tag == Operators.EqualTo.rawValue {
-            if operationTag == Operators.Divide.rawValue {
-                label.text = String(previousNumber / currentNumber)
-            }
-                
-            else if operationTag == Operators.Multiply.rawValue {
-                label.text = String(previousNumber * currentNumber)
-            }
-                
-            else if operationTag == Operators.Subtract.rawValue {
-                label.text = String(previousNumber - currentNumber)
-            }
-                
-            else if operationTag == Operators.Add.rawValue {
-                label.text = String(previousNumber + currentNumber)
-            }
+            self.equalToOperatorTapped()
         }
             
         else if sender.tag == Operators.Clear.rawValue {
@@ -90,6 +63,40 @@ class ViewController: UIViewController {
             currentNumber = 0
             operationTag = 0
         }
+    }
+    
+    private func equalToOperatorTapped() {
+        switch self.operationTag {
+        case Operators.Divide.rawValue:
+            label.text = String(previousNumber / currentNumber)
+        case Operators.Multiply.rawValue:
+            label.text = String(previousNumber * currentNumber)
+        case Operators.Subtract.rawValue:
+            label.text = String(previousNumber - currentNumber)
+        case Operators.Add.rawValue:
+            label.text = String(previousNumber + currentNumber)
+        default:
+            break
+        }
+    }
+    
+    private func computePreviousNumAndUpdateOperationOnLabel(tag: Int) {
+        previousNumber = Double(label.text!)!
+        
+        switch tag {
+        case Operators.Divide.rawValue:
+            label.text = "÷"
+        case Operators.Multiply.rawValue:
+            label.text = "*"
+        case Operators.Subtract.rawValue:
+            label.text = "-"
+        case Operators.Add.rawValue:
+            label.text = "+"
+        default:
+            print("")
+        }
+        operationTag = tag
+        calculationsOn = true
     }
 }
 
