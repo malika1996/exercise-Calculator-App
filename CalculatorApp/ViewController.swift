@@ -49,8 +49,10 @@ class ViewController: UIViewController {
             }
             if self.numOfDigitsSoFar <= 7 {
                 if sender.tag == Operators.Dot.rawValue {
+                    // To have only one decimal in the number
                     if !(label.text!.contains(".")) {
                         if label.text == "" {
+                            // To avoid Double(.) -> nil case
                             label.text = "0."
                         } else {
                             label.text = label.text! + "."
@@ -98,7 +100,23 @@ class ViewController: UIViewController {
     }
     
     private func computePreviousNumAndUpdateOperationOnLabel(tag: Int) {
-        previousNumber = Double(label.text!)!
+        if self.previousNumber != 0 && self.currentNumber != 0 {
+            switch self.operationTag {
+            case Operators.Divide.rawValue:
+                self.previousNumber = previousNumber / currentNumber
+            case Operators.Multiply.rawValue:
+                self.previousNumber = previousNumber * currentNumber
+            case Operators.Subtract.rawValue:
+                self.previousNumber = previousNumber - currentNumber
+            case Operators.Add.rawValue:
+                self.previousNumber = previousNumber + currentNumber
+            default:
+                break
+            }
+        }
+        if self.previousNumber == 0 {
+            previousNumber = self.currentNumber
+        }
         switch tag {
         case Operators.Divide.rawValue:
             label.text = "÷"
