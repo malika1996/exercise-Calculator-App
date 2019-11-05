@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     private var previousNumber: Double = 0
     private var calculationsOn = false
     private var operationTag = 0
-    private var operationFinished = false
+    private var equalToOperationFinished = false
     private var numOfDigitsSoFar = 0
     
     override func viewDidLoad() {
@@ -32,14 +32,8 @@ class ViewController: UIViewController {
 
     // MARK: IBActions
     @IBAction private func numberTapped(_ sender: CustomButton) {
-        if self.operationFinished {
-            currentNumber = 0
-            if label.text != "÷" && label.text != "*" && label.text != "+" && label.text != "-" {
-                self.operationTag = 0
-                self.previousNumber = 0
-            }
-            self.operationFinished = false
-            label.text = ""
+        if self.equalToOperationFinished {
+            self.checkForNewOrChainCalculation()
         }
         if calculationsOn {
             label.text = String(sender.tag-1)
@@ -47,26 +41,11 @@ class ViewController: UIViewController {
             calculationsOn = false
             self.numOfDigitsSoFar += 1
         }
-            
         else { // Number preparation from digits
             if label.text == "0" {
                 label.text = ""
             }
-            if self.numOfDigitsSoFar <= 7 {
-                if sender.tag == Operators.Dot.rawValue {
-                    // To have only one decimal in the number
-                    if !(label.text!.contains(".")) {
-                        if label.text == "" {
-                            // To avoid Double(.) -> nil case
-                            label.text = "0."
-                        } else {
-                            label.text = label.text! + "."
-                        }
-                    }
-                } else {
-                    label.text = label.text! + String(sender.tag-1)
-                }
-            }
+            self.restrictDigitsNum(tag: sender.tag)
             self.numOfDigitsSoFar += 1
             currentNumber = Double(label.text!)!
         }
@@ -88,6 +67,35 @@ class ViewController: UIViewController {
         self.numOfDigitsSoFar = 0
     }
     
+    private func restrictDigitsNum(tag: Int) {
+        if self.numOfDigitsSoFar <= 7 {
+            if tag == Operators.Dot.rawValue {
+                // To have only one decimal in the number
+                if !(label.text!.contains(".")) {
+                    if label.text == "" {
+                        // To avoid Double(.) -> nil case
+                        label.text = "0."
+                    } else {
+                        label.text = label.text! + "."
+                    }
+                }
+            } else {
+                label.text = label.text! + String(tag-1)
+            }
+        }
+    }
+    
+    private func checkForNewOrChainCalculation() {
+        currentNumber = 0
+        // Operation on previous result as first operand
+        if label.text != "÷" && label.text != "*" && label.text != "+" && label.text != "-" {
+            self.operationTag = 0
+            self.previousNumber = 0
+        }
+        self.equalToOperationFinished = false
+        label.text = ""
+    }
+    
     private func equalToOperatorTapped() {
         switch self.operationTag {
         case Operators.Divide.rawValue:
@@ -101,26 +109,14 @@ class ViewController: UIViewController {
         default:
             break
         }
+        // Result stored for chain calculations
         self.previousNumber = Double(label.text!)!
         self.currentNumber = 0
-        self.operationFinished = true
+        self.equalToOperationFinished = true
     }
     
     private func computePreviousNumAndUpdateOperationOnLabel(tag: Int) {
-        if self.previousNumber != 0 && self.currentNumber != 0 {
-            switch self.operationTag {
-            case Operators.Divide.rawValue:
-                self.previousNumber = previousNumber / currentNumber
-            case Operators.Multiply.rawValue:
-                self.previousNumber = previousNumber * currentNumber
-            case Operators.Subtract.rawValue:
-                self.previousNumber = previousNumber - currentNumber
-            case Operators.Add.rawValue:
-                self.previousNumber = previousNumber + currentNumber
-            default:
-                break
-            }
-        }
+        self.preparePreviousNumForChainCalculations()
         if self.previousNumber == 0 {
             previousNumber = self.currentNumber
         }
@@ -138,6 +134,24 @@ class ViewController: UIViewController {
         }
         operationTag = tag
         calculationsOn = true
+    }
+    
+    private func preparePreviousNumForChainCalculations() {
+        // Prepare previousNum by computing previous chain result
+        if self.previousNumber != 0 && self.currentNumber != 0 {
+            switch self.operationTag {
+            case Operators.Divide.rawValue:
+                self.previousNumber = previousNumber / currentNumber
+            case Operators.Multiply.rawValue:
+                self.previousNumber = previousNumber * currentNumber
+            case Operators.Subtract.rawValue:
+                self.previousNumber = previousNumber - currentNumber
+            case Operators.Add.rawValue:
+                self.previousNumber = previousNumber + currentNumber
+            default:
+                break
+            }
+        }
     }
 }
 
