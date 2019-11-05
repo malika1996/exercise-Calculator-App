@@ -33,8 +33,13 @@ class ViewController: UIViewController {
     // MARK: IBActions
     @IBAction private func numberTapped(_ sender: CustomButton) {
         if self.operationFinished {
-            label.text = ""
+            currentNumber = 0
+            if label.text != "÷" && label.text != "*" && label.text != "+" && label.text != "-" {
+                self.operationTag = 0
+                self.previousNumber = 0
+            }
             self.operationFinished = false
+            label.text = ""
         }
         if calculationsOn {
             label.text = String(sender.tag-1)
@@ -96,6 +101,8 @@ class ViewController: UIViewController {
         default:
             break
         }
+        self.previousNumber = Double(label.text!)!
+        self.currentNumber = 0
         self.operationFinished = true
     }
     
