@@ -19,10 +19,12 @@ class ViewController: UIViewController {
     @IBOutlet weak private var label: UILabel!
     
     // MARK: Default values
-    var currentNumber: Double = 0
-    var previousNumber: Double = 0
-    var calculationsOn = false
-    var operationTag = 0
+    private var currentNumber: Double = 0
+    private var previousNumber: Double = 0
+    private var calculationsOn = false
+    private var operationTag = 0
+    private var operationFinished = false
+    private var numOfDigitsSoFar = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,39 +32,53 @@ class ViewController: UIViewController {
 
     // MARK: IBActions
     @IBAction private func numberTapped(_ sender: CustomButton) {
-        if calculationsOn == true {
+        if self.operationFinished {
+            label.text = ""
+            self.operationFinished = false
+        }
+        if calculationsOn {
             label.text = String(sender.tag-1)
             currentNumber = Double(label.text!)!
             calculationsOn = false
+            self.numOfDigitsSoFar += 1
         }
             
         else { // Number preparation from digits
             if label.text == "0" {
                 label.text = ""
             }
-            if sender.tag == Operators.Dot.rawValue {
-                label.text = label.text! + "."
-            } else {
-                label.text = label.text! + String(sender.tag-1)
+            if self.numOfDigitsSoFar <= 7 {
+                if sender.tag == Operators.Dot.rawValue {
+                    if !(label.text!.contains(".")) {
+                        if label.text == "" {
+                            label.text = "0."
+                        } else {
+                            label.text = label.text! + "."
+                        }
+                    }
+                } else {
+                    label.text = label.text! + String(sender.tag-1)
+                }
             }
-             currentNumber = Double(label.text!)!
+            self.numOfDigitsSoFar += 1
+            currentNumber = Double(label.text!)!
         }
     }
+    
     @IBAction private func btnOperationTapped(_ sender: CustomButton) {
         if label.text != "" && sender.tag != Operators.Clear.rawValue && sender.tag != Operators.EqualTo.rawValue && label.text != "÷" && label.text != "*" && label.text != "+" && label.text != "-" {
             self.computePreviousNumAndUpdateOperationOnLabel(tag: sender.tag)
         }
-            
         else if sender.tag == Operators.EqualTo.rawValue {
             self.equalToOperatorTapped()
         }
-            
         else if sender.tag == Operators.Clear.rawValue {
             label.text = "0"
             previousNumber = 0
             currentNumber = 0
             operationTag = 0
         }
+        self.numOfDigitsSoFar = 0
     }
     
     private func equalToOperatorTapped() {
@@ -78,11 +94,11 @@ class ViewController: UIViewController {
         default:
             break
         }
+        self.operationFinished = true
     }
     
     private func computePreviousNumAndUpdateOperationOnLabel(tag: Int) {
         previousNumber = Double(label.text!)!
-        
         switch tag {
         case Operators.Divide.rawValue:
             label.text = "÷"
