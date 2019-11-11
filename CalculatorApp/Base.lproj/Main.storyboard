@@ -73,8 +73,8 @@
                                                         </state>
                                                         <variation key="widthClass=compact">
                                                             <mask key="constraints">
-                                                                <exclude reference="w8e-de-f6f"/>
                                                                 <exclude reference="Jv8-CE-DIe"/>
+                                                                <exclude reference="w8e-de-f6f"/>
                                                             </mask>
                                                         </variation>
                                                     </button>
@@ -91,8 +91,8 @@
                                                         </state>
                                                         <variation key="widthClass=compact">
                                                             <mask key="constraints">
-                                                                <exclude reference="kOS-k2-Pkd"/>
                                                                 <exclude reference="EL8-NP-Npy"/>
+                                                                <exclude reference="kOS-k2-Pkd"/>
                                                             </mask>
                                                         </variation>
                                                     </button>
@@ -109,12 +109,12 @@
                                                         </state>
                                                         <variation key="widthClass=compact">
                                                             <mask key="constraints">
-                                                                <exclude reference="LZA-aO-ZYG"/>
                                                                 <exclude reference="Ja4-RG-FQg"/>
+                                                                <exclude reference="LZA-aO-ZYG"/>
                                                             </mask>
                                                         </variation>
                                                         <connections>
-                                                            <action selector="btnOperationTapped:" destination="eZb-Ua-Fll" eventType="touchUpInside" id="Mgk-4P-5Dl"/>
+                                                            <action selector="btnOperationTapped:" destination="eZb-Ua-Fll" eventType="touchUpInside" id="8PB-u4-Tae"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -375,24 +375,24 @@
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="hhH-mX-keW"/>
                                                 <exclude reference="N7d-jU-qXS"/>
                                                 <exclude reference="cae-ro-m4F"/>
                                                 <exclude reference="fOe-Tq-Jsv"/>
+                                                <exclude reference="hhH-mX-keW"/>
                                                 <exclude reference="ER7-4s-LKg"/>
-                                                <exclude reference="USC-p4-uE4"/>
                                                 <exclude reference="FcT-Ii-RTS"/>
+                                                <exclude reference="USC-p4-uE4"/>
                                             </mask>
                                         </variation>
                                         <variation key="widthClass=compact" axis="vertical" spacing="12">
                                             <mask key="constraints">
-                                                <exclude reference="hhH-mX-keW"/>
                                                 <include reference="N7d-jU-qXS"/>
                                                 <include reference="cae-ro-m4F"/>
                                                 <include reference="fOe-Tq-Jsv"/>
+                                                <exclude reference="hhH-mX-keW"/>
                                                 <include reference="ER7-4s-LKg"/>
-                                                <include reference="USC-p4-uE4"/>
                                                 <include reference="FcT-Ii-RTS"/>
+                                                <include reference="USC-p4-uE4"/>
                                             </mask>
                                         </variation>
                                     </stackView>
@@ -544,9 +544,6 @@
                                                         <state key="normal">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
-                                                        <connections>
-                                                            <action selector="btnOperationTapped:" destination="eZb-Ua-Fll" eventType="touchUpInside" id="iOC-H5-fpd"/>
-                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" tag="14" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJL-i4-05B" customClass="CustomButton" customModule="CalculatorApp" customModuleProvider="target">
                                                         <rect key="frame" x="678" y="0.0" width="90" height="90"/>
@@ -721,6 +718,14 @@
                     <connections>
                         <outlet property="btnAC" destination="0MF-0M-YdU" id="ZNe-k0-ACT"/>
                         <outlet property="label" destination="tHY-UG-eZd" id="L4a-ga-7rx"/>
+                        <outletCollection property="btnOperations" destination="RFv-3p-kCb" collectionClass="NSMutableArray" id="ovo-jl-Y5r"/>
+                        <outletCollection property="btnOperations" destination="Pos-Yf-wxx" collectionClass="NSMutableArray" id="eMA-JH-kgN"/>
+                        <outletCollection property="btnOperations" destination="Zoi-6B-fXz" collectionClass="NSMutableArray" id="6gW-et-LHt"/>
+                        <outletCollection property="btnOperations" destination="tJp-MB-s9V" collectionClass="NSMutableArray" id="xbu-JB-lln"/>
+                        <outletCollection property="btnOperations" destination="D9R-xM-rmy" collectionClass="NSMutableArray" id="s8Q-3M-ARu"/>
+                        <outletCollection property="btnOperations" destination="yJL-i4-05B" collectionClass="NSMutableArray" id="Rkv-Zy-Oe4"/>
+                        <outletCollection property="btnOperations" destination="aTW-xl-Gmq" collectionClass="NSMutableArray" id="HeH-5q-WvG"/>
+                        <outletCollection property="btnOperations" destination="EKH-wu-8bc" collectionClass="NSMutableArray" id="yG5-fQ-9G9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4JY-NJ-3uB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -744,8 +749,8 @@
                                     </state>
                                     <variation key="widthClass=compact">
                                         <mask key="constraints">
-                                            <exclude reference="phk-CY-3Tt"/>
                                             <exclude reference="U2l-lV-KdF"/>
+                                            <exclude reference="phk-CY-3Tt"/>
                                         </mask>
                                     </variation>
                                 </button>
@@ -806,24 +811,24 @@
                     <viewLayoutGuide key="safeArea" id="p6b-Gx-0kw"/>
                     <variation key="default">
                         <mask key="constraints">
+                            <exclude reference="4Su-b7-mMr"/>
                             <exclude reference="FO5-EK-9CB"/>
                             <exclude reference="mef-9O-bPS"/>
                             <exclude reference="oru-MD-4Pt"/>
-                            <exclude reference="4Su-b7-mMr"/>
                             <exclude reference="Hqe-Fc-R5s"/>
-                            <exclude reference="aWn-xe-B05"/>
                             <exclude reference="Iga-I4-xxD"/>
+                            <exclude reference="aWn-xe-B05"/>
                         </mask>
                     </variation>
                     <variation key="widthClass=compact" axis="vertical" spacing="12">
                         <mask key="constraints">
+                            <include reference="4Su-b7-mMr"/>
                             <include reference="FO5-EK-9CB"/>
                             <include reference="mef-9O-bPS"/>
                             <exclude reference="oru-MD-4Pt"/>
-                            <include reference="4Su-b7-mMr"/>
                             <include reference="Hqe-Fc-R5s"/>
-                            <include reference="aWn-xe-B05"/>
                             <include reference="Iga-I4-xxD"/>
+                            <include reference="aWn-xe-B05"/>
                         </mask>
                     </variation>
                 </stackView>
