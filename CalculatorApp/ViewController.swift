@@ -32,11 +32,14 @@ class ViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         self.selectSameButtonOnOrientationChange()
-        guard let resultString = self.label.text else {return}
+        guard var resultString = self.label.text else {return}
         guard let number = Double(resultString) else {return}
         if UIDevice.current.orientation.isLandscape {
             self.label.text = "\(self.previousNumber ?? number)".removeExtraZeroAfterPoint()
         } else {
+            if resultString.count > 8 {
+                resultString = String(format: "%2.2e", number)
+            }
             label.text = self.setTextForPortraitMode(resultString: resultString).removeExtraZeroAfterPoint()
         }
     }
@@ -97,7 +100,7 @@ class ViewController: UIViewController {
     private func displayResultInScientificNotationFor(number: Double) -> String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .scientific
-        formatter.positiveFormat = "0.#####E+0"
+        formatter.positiveFormat = "##.000E+0" //"%2.2e"
         formatter.exponentSymbol = "e"
         if let scientificFormatted = formatter.string(for: number) {
             return scientificFormatted
@@ -133,7 +136,7 @@ class ViewController: UIViewController {
     private func setTextForPortraitMode(resultString: String) -> String {
         var resultString = resultString
         if resultString.count > 8 {
-            if resultString.contains(".") {
+            if resultString.contains(".") && !resultString.contains("e") {
                 resultString = self.removeExtraDigitsAfterPointForPortraitMode(resultString: resultString)
             } else {
                 resultString = (displayResultInScientificNotationFor(number: (previousNumber ?? 0))) ?? ""
